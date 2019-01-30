@@ -7,3 +7,18 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 require 'faker'
+
+Comment.destroy_all
+Pin.destroy_all
+User.destroy_all
+
+5.times do
+  User.create!(name: Faker::Name.name)
+  5.times do
+    Pin.create!(url: Faker::Internet.url('example.com'), user_id: User.last.id)
+  end
+end
+
+5.times do |index|
+  Comment.create!(content: Faker::ChuckNorris.fact, user_id: (User.first.id.to_i + index), pin_id: (Pin.first.id.to_i + rand(24)))
+end
